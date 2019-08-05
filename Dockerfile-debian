@@ -1,0 +1,16 @@
+FROM debian:10
+
+RUN apt-get update && \
+    apt-get install -y squid && \
+    mkdir -p /etc/squid/patterns.d /etc/squid/storeid /app/storeid
+
+COPY docker-stuff/start.sh /app/
+COPY storeid_rewrite /app/
+COPY docker-stuff/squid.conf /etc/squid/
+COPY patterns/* /etc/squid/patterns.d/
+COPY storeid/* /app/storeid/
+
+EXPOSE 3128
+EXPOSE 3129
+
+ENTRYPOINT ["/app/start.sh"]

@@ -1,0 +1,15 @@
+FROM alpine:3.10
+
+RUN apk -u add squid perl && \
+    mkdir -p /etc/squid/conf.d /etc/squid/patterns.d /etc/squid/storeid /app/storeid
+
+COPY docker-stuff/start.sh /app/
+COPY storeid_rewrite /app/
+COPY docker-stuff/squid.conf /etc/squid/
+COPY patterns/* /etc/squid/patterns.d/
+COPY storeid/* /app/storeid/
+
+EXPOSE 3128
+EXPOSE 3129
+
+ENTRYPOINT ["/app/start.sh"]
