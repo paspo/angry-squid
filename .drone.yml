@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-  - name: build
+  - name: build-alpine
     image: plugins/docker:linux-amd64
     pull: always
     settings:
@@ -12,12 +12,28 @@ steps:
       repo: docker.asperti.com/paspo/angry-squid
       tags:
         - latest
+        - alpine-latest
     when:
       event:
         exclude:
         - tag
-                      
-  - name: build_and_publish
+
+  - name: build-debian
+    image: plugins/docker:linux-amd64
+    pull: always
+    settings:
+      dockerfile: Dockerfile-debian
+      daemon_off: false
+      dry_run: true
+      repo: docker.asperti.com/paspo/angry-squid
+      tags:
+        - debian-latest
+    when:
+      event:
+        exclude:
+        - tag
+        
+  - name: build_and_publish-alpine
     image: plugins/docker:linux-amd64
     pull: always
     settings:
@@ -30,6 +46,26 @@ steps:
       repo: docker.asperti.com/paspo/angry-squid
       tags:
         - latest
+        - alpine-latest
+      username:
+        from_secret: docker_username
+    when:
+      event:
+      - tag
+
+  - name: build_and_publish-debian
+    image: plugins/docker:linux-amd64
+    pull: always
+    settings:
+      dockerfile: Dockerfile-debian
+      auto_tag: true
+      daemon_off: false
+      password:
+        from_secret: docker_password
+      registry: docker.asperti.com
+      repo: docker.asperti.com/paspo/angry-squid
+      tags:
+        - debian-latest
       username:
         from_secret: docker_username
     when:
