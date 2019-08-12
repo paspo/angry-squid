@@ -1,5 +1,7 @@
 # angry-squid
 
+[![Build Status](https://drone.asperti.com/api/badges/paspo/angry-squid/status.svg)](https://drone.asperti.com/paspo/angry-squid)
+
 Deploy the squid and let it rule!
 
 ## features

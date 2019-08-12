@@ -1,0 +1,35 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: build
+    image: plugins/docker:linux-amd64
+    pull: always
+    settings:
+      daemon_off: false
+      dry_run: true
+      repo: docker.asperti.com/paspo/angry-squid
+      tags:
+        - latest
+    when:
+      event:
+        exclude:
+        - tag
+                      
+  - name: build_and_publish
+    image: plugins/docker:linux-amd64
+    pull: always
+    settings:
+      auto_tag: true
+      daemon_off: false
+      password:
+        from_secret: docker_password
+      registry: docker.asperti.com
+      repo: docker.asperti.com/paspo/angry-squid
+      tags:
+        - latest
+      username:
+        from_secret: docker_username
+    when:
+      event:
+      - tag
