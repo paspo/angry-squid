@@ -40,6 +40,7 @@ steps:
       dockerfile: Dockerfile-alpine
       auto_tag: true
       auto_tag_suffix: alpine
+      force_tag: true
       daemon_off: false
       password:
         from_secret: docker_password
@@ -61,6 +62,7 @@ steps:
       dockerfile: Dockerfile-debian
       auto_tag: true
       auto_tag_suffix: debian
+      force_tag: true
       daemon_off: false
       password:
         from_secret: docker_password
