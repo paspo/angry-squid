@@ -6,6 +6,7 @@ steps:
     image: plugins/docker:linux-amd64
     pull: always
     settings:
+      dockerfile: Dockerfile-alpine
       daemon_off: false
       dry_run: true
       repo: docker.asperti.com/paspo/angry-squid
@@ -20,6 +21,7 @@ steps:
     image: plugins/docker:linux-amd64
     pull: always
     settings:
+      dockerfile: Dockerfile-alpine
       auto_tag: true
       daemon_off: false
       password:
