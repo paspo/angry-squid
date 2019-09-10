@@ -4,6 +4,9 @@ SQUID_CACHE_DIR=${SQUID_CACHE_DIR:-/var/spool/squid}
 SQUID_COREDUMP_DIR=${SQUID_COREDUMP_DIR:-/var/cache/squid}
 SQUID_CACHE_SIZE_MB=${SQUID_CACHE_SIZE_MB:-10240}
 
+PIDFILE=/var/run/squid.pid
+
+
 if [ ! -d "${SQUID_CACHE_DIR}" ]; then
   mkdir -p "${SQUID_CACHE_DIR}"
   chown squid:squid "${SQUID_CACHE_DIR}"
@@ -20,9 +23,10 @@ coredump_dir ${SQUID_COREDUMP_DIR}
 EOF
 
 if [ ! -d "${SQUID_CACHE_DIR}/00" ]; then
-  squid -z 
+  squid -z
   sleep 5
 fi
 
-squid 
+[ -e "${PIDFILE}" ] && rm "${PIDFILE}"
+squid
 tail -f /var/log/squid/access.log /var/log/squid/cache.log
