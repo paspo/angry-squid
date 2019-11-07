@@ -1,6 +1,7 @@
 FROM debian:10
 
 RUN apt-get update && \
+    apt-get -y upgrade && \
     apt-get install -y squid && \
     mkdir -p /etc/squid/patterns.d /etc/squid/storeid /app/storeid
 
